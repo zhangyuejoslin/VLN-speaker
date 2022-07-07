@@ -1,4 +1,4 @@
-name=VLNBERT-train-prevalent_update35
+name=VLNBERT-train-batch16
 
 flag="--vlnbert prevalent
       --aug data/prevalent_aug.json
@@ -7,7 +7,7 @@ flag="--vlnbert prevalent
       --train auglistener
       --features places365
       --maxAction 15
-      --batchSize 8
+      --batchSize 16
       --feedback sample
       --lr 1e-5
       --iters 600000
@@ -18,9 +18,11 @@ flag="--vlnbert prevalent
       --angleFeatSize 128
       --featdropout 0.4
       --dropout 0.5
-      --using_ob 0
-      --obj_img_feat_path /home/hlr/shared/data/joslin/img_features/obj_feat_10.npy
+      --selfTrain
+      --accumulateGrad
+      --speaker /VL/space/zhan1624/VLN-speaker/snap/VLNBERT-train-speaker/state_dict/best_val_unseen_bleu
      "
-
+   
+       
 mkdir -p snap/$name
-CUDA_VISIBLE_DEVICES=1 python LSTM_r2r_src/train.py $flag --name $name
+CUDA_VISIBLE_DEVICES=5 python r2r_src_speaker/train.py $flag --name $name
